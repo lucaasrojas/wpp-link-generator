@@ -42,7 +42,7 @@ function App() {
           </a>
           <QRCode
             size={256}
-            style={{ maxWidth: "200px" }}
+            style={{ maxWidth: "200px", margin: "auto" }}
             value={`https://api.whatsapp.com/send/?phone=${number}&text&type=phone_number&app_absent=1`}
           />
           <a
