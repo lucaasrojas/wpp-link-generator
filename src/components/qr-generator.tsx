@@ -37,7 +37,7 @@ const QRGenerator = () => {
         <div className="space-y-2">
           <Label htmlFor="country-code">Country Code</Label>
           <Select onValueChange={setCountryCode} defaultValue={countryCode}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full" id="country-code">
               <SelectValue placeholder="Select a country code" />
             </SelectTrigger>
             <SelectContent>
@@ -71,7 +71,7 @@ const QRGenerator = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `https://api.whatsapp.com/send/?phone=${countryCode}${phoneNumber}&text&type=phone_number&app_absent=1`,
+                  `https://api.whatsapp.com/send/?phone=${(countryCode+phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
                   "_blank"
                 )
               }
@@ -83,7 +83,7 @@ const QRGenerator = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `https://web.whatsapp.com/send/?phone=${countryCode}${phoneNumber}&text&type=phone_number&app_absent=1`,
+                  `https://web.whatsapp.com/send/?phone=${(countryCode+phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
                   "_blank"
                 )
               }
