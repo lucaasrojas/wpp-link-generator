@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/select";
 import { countryCodes } from "@/lib/const/country-codes";
 import { Label } from "@/components/ui/label";
+import { getCookie, setCookie } from "@/lib/cookies";
 
 const QRGenerator = () => {
-  const [countryCode, setCountryCode] = useState("+1");
+  const [countryCode, setCountryCode] = useState(getCookie("countryCode") || "+54");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showQR, setShowQR] = useState(false);
 
@@ -31,12 +32,20 @@ const QRGenerator = () => {
     setShowQR(true);
   };
 
+  const handleSetCountryCode = (value: string) => {
+    setCookie("countryCode", value, 30);
+    toast("Country code saved", {
+      description: "Your country code has been saved",
+    });
+    setCountryCode(value)
+  }
+
   return (
     <Card className="w-full">
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="country-code">Country Code</Label>
-          <Select onValueChange={setCountryCode} defaultValue={countryCode}>
+          <Select onValueChange={handleSetCountryCode} defaultValue={countryCode}>
             <SelectTrigger className="w-full" id="country-code">
               <SelectValue placeholder="Select a country code" />
             </SelectTrigger>
@@ -71,7 +80,7 @@ const QRGenerator = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `https://api.whatsapp.com/send/?phone=${(countryCode+phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
+                  `https://api.whatsapp.com/send/?phone=${(countryCode + phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
                   "_blank"
                 )
               }
@@ -83,7 +92,7 @@ const QRGenerator = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `https://web.whatsapp.com/send/?phone=${(countryCode+phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
+                  `https://web.whatsapp.com/send/?phone=${(countryCode + phoneNumber).replace(/\D/g, "")}&text&type=phone_number&app_absent=1`,
                   "_blank"
                 )
               }
